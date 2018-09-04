@@ -4,18 +4,27 @@ import * as React from 'react';
 export interface HelloProps {
   name: string;
   message: string;
+  changeMsg: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-class Hello extends React.Component<HelloProps, {}> {
+export class Hello extends React.Component<HelloProps, {}> {
   constructor(props: HelloProps) {
     super(props);
+
   }
 
   public render() {
     return (
       <div>
-        <p>Hello {this.props.name}, </p>
-        <p>{this.props.message}</p>
+        <div>
+          <p>Hello { this.props.name }, </p>
+          <p>{ this.props.message ? this.props.message : "This is a default msg" }</p>
+        </div>
+        <div>
+          <button onClick={ this.props.changeMsg }>
+            Click me
+          </button>
+        </div>
       </div>
     );
   }

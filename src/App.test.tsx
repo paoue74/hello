@@ -1,9 +1,16 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import * as TestRenderer from 'react-test-renderer';
+import configureMockStore from 'redux-mock-store';
+
 import App from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+const mockStore = configureMockStore();
+const store = mockStore({});
+
+describe('App', () => {
+  test('should renders App without crashing', () => {
+    const renderer = TestRenderer.create(<Provider store={store}><App /></Provider>);
+    expect(renderer.toJSON()).toMatchSnapshot();
+  });
 });

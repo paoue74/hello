@@ -1,36 +1,73 @@
+import * as _ from 'lodash';
 import * as React from 'react';
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
+import { data } from '../data/data';
+import { getMessage, getName, IRootState } from '../reducers/hello.reducer';
+import { initHelloMsg, initHelloName, updateHelloMsg } from './actions';
 import Hello from './Hello.component';
 
 // tslint:disable-next-line:interface-name
-export interface HelloState {
+export interface StateProps {
   name: string;
   message: string;
 }
 
-class HelloContainer extends React.Component<{}, HelloState> {
+// tslint:disable-next-line:interface-name
+export interface DispatchProps {
+  initHelloName: () => void;
+  initHelloMsg: () => void;
+  updateHelloMsg: (newMsg: string) => void;
+}
 
-  // constructor(props: Readonly<{}>) {
-  //   super(props);
+export type ContainerProps = StateProps & DispatchProps;
 
-  //   // this.state = {
-  //   //   name: "Fabien",
-  //   //   // tslint:disable-next-line:object-literal-sort-keys
-  //   //   message: "React TS simple component",
-  //   // };
-  // }
+export class HelloContainer extends React.Component<ContainerProps, StateProps> {
+
+  constructor(props: Readonly<ContainerProps>) {
+    super(props);
+    // this.state = {
+    //   message: this.props.message,
+    //   name: this.props.name,
+    // };
+    
+    this.handleChangeMsg = this.handleChangeMsg.bind(this);
+  }
+
+  public componentDidMount() {
+    if(_.isUndefined(this.props.name) || _.isEmpty(this.props.name)) {
+      this.props.initHelloName();
+    }
+    if(_.isUndefined(this.props.message) || _.isEmpty(this.props.message)) {
+      this.props.initHelloMsg();
+    }
+  }
 
   public render() {
     return (
-      <Hello name="Fabien" message="React TS container" />
+      <Hello name={this.props.name} message={this.props.message} changeMsg={this.handleChangeMsg}/>
     );
+  }
+
+  public handleChangeMsg() {
+    const newMsg = data[_.random(0, 2)];
+    // this.setState({...this.state, message: newMsg});
+    this.props.updateHelloMsg(newMsg);
   }
 }
 
-// const mapState2Props = state => {
-//   return {
-//   };
-// }
+const mapState2Props = (state: IRootState): StateProps => {
+  return {
+  message: getMessage(state),
+  name: getName(state),
+}
+};
 
-// export default connect(/*mapState2Props*/)(HelloContainer);
-export default HelloContainer
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  initHelloMsg: () => dispatch(initHelloMsg()),
+  initHelloName: () => dispatch(initHelloName()),
+  updateHelloMsg: (msg: string) => dispatch(updateHelloMsg(msg)),
+})
+
+export default connect(mapState2Props, mapDispatchToProps)(HelloContainer);
