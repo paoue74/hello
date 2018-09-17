@@ -27,10 +27,6 @@ export class HelloContainer extends React.Component<ContainerProps, StateProps> 
 
   constructor(props: Readonly<ContainerProps>) {
     super(props);
-    // this.state = {
-    //   message: this.props.message,
-    //   name: this.props.name,
-    // };
     
     this.handleChangeMsg = this.handleChangeMsg.bind(this);
   }
@@ -52,22 +48,19 @@ export class HelloContainer extends React.Component<ContainerProps, StateProps> 
 
   public handleChangeMsg() {
     const newMsg = data[_.random(0, 2)];
-    // this.setState({...this.state, message: newMsg});
     this.props.updateHelloMsg(newMsg);
   }
 }
 
-const mapState2Props = (state: IRootState): StateProps => {
-  return {
+const mapState2Props = (state: IRootState): StateProps => ({
   message: getMessage(state),
   name: getName(state),
-}
-};
+});
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   initHelloMsg: () => dispatch(initHelloMsg()),
   initHelloName: () => dispatch(initHelloName()),
   updateHelloMsg: (msg: string) => dispatch(updateHelloMsg(msg)),
-})
+});
 
 export default connect(mapState2Props, mapDispatchToProps)(HelloContainer);

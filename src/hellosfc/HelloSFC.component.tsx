@@ -7,12 +7,12 @@ export interface HelloSFCProps {
   changeMsg: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export const HelloSFC: React.SFC<HelloSFCProps> = (props: HelloSFCProps) => {
+export const HelloSFC: React.SFC<HelloSFCProps> = (props: HelloSFCProps): JSX.Element => {
   return (
     <div>
       <div>
         <p>Hello { props.name }, </p>
-        <p>{ props.message ? props.message : "This is a default msg" }</p>
+        <p>{ props.message ? props.message : "This is a SFC default msg" }</p>
       </div>
       <div>
         <button onClick={ props.changeMsg }>
