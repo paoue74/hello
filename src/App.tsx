@@ -2,7 +2,7 @@ import './App.css';
 
 import * as React from 'react';
 
-import HelloSFCContainer from './hellosfc/HelloSFC.container';
+import HelloRecomposeContainer from './hellorecompose/HelloRecompose.container';
 import logo from './logo.svg';
 
 export class App extends React.Component {
@@ -13,7 +13,7 @@ export class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React recompose test</h1>
         </header>
-       <HelloSFCContainer />
+       <HelloRecomposeContainer />
       </div>
     );
   }

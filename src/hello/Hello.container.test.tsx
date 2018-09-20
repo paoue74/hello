@@ -57,11 +57,9 @@ describe('Hello.container', () => {
   describe('Component Handlers', () => {
     test('should call updateHelloMsg when handleChangeMsg is call', () => {
       const { props, enzymeWrapper } = setup();
-      const state = enzymeWrapper.instance().state;
       enzymeWrapper.instance().handleChangeMsg();
       
       expect(props.updateHelloMsg).toHaveBeenCalledTimes(1);
-      expect(enzymeWrapper.instance().state).not.toEqual(state);
     });
   });
 });
